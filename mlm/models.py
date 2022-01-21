@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # Based on:
-# https://github.com/Ago3/mlm-scoring
+# https://github.com/awslabs/mlm-scoring
 # https://raw.githubusercontent.com/dmlc/gluon-nlp/8a23a8bcb10a05cdf1360cb237e0d5306ae17183/scripts/bert/model/classification.py
 
 # Licensed to the Apache Software Foundation (ASF) under one

@@ -1,5 +1,5 @@
 # Based on:
-# https://github.com/Ago3/mlm-scoring
+# https://github.com/awslabs/mlm-scoring
 # https://raw.githubusercontent.com/dmlc/gluon-nlp/v0.9.x/src/gluonnlp/data/batchify/batchify.py
 
 # Licensed to the Apache Software Foundation (ASF) under one

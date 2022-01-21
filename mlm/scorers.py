@@ -1,5 +1,5 @@
 # Based on:
-# https://github.com/Ago3/mlm-scoring
+# https://github.com/awslabs/mlm-scoring
 
 from abc import ABC
 import logging
