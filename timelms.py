@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 from typing import OrderedDict
 
@@ -42,7 +43,8 @@ class TimeLMs(object):
             assert int(m) in range(1, 12+1)
             assert int(y) in range(2006, 2099)
         except:
-            raise(BaseException('Invalid date format.'))
+            # raise(BaseException('Invalid date format.'))
+            return None
 
         if m in [1, 2, 3]:
             return f"{self.config['account']}/{self.config['slug']}-mar{str(y)}"
@@ -74,27 +76,27 @@ class TimeLMs(object):
     def group_tweets_by_model(self, tweets, mode='default'):
 
         tweets_by_model = defaultdict(list)
-        for tw in tweets:
 
-            if mode == 'default':
-                tw_model = self.config['default']
-                tweets_by_model[tw_model].append(tw)
-            
-            elif mode == 'latest':
-                tw_model = self.config['latest']
-                tweets_by_model[tw_model].append(tw)
+        if mode == 'default':
+            tweets_by_model[self.config['default']] = tweets
 
-            elif mode == 'specific':
-                tw_model = self.date2model(tw['created_at'])
-                tweets_by_model[tw_model].append(tw)
-            
-            elif mode == 'quarterly':
-                for tw_model in self.config['quarterly']:
-                    tweets_by_model[tw_model].append(tw)
-            
-            else:
-                raise(BaseException("Invalid mode (choose 'default', 'latest', 'specific', 'quarterly')."))
+        elif mode == 'latest':
+            tweets_by_model[self.config['latest']] = tweets
+
+        elif self.date2model(mode) != None:  # custom mode, expects YYYY-MM
+            tweets_by_model[self.date2model(mode)] = tweets
         
+        elif mode == 'corresponding' or mode == 'specific':  # old version used 'specific'
+            for tw in tweets:
+                tweets_by_model[self.date2model(tw['created_at'])].append(tw)
+
+        elif mode == 'quarterly':
+            for tw_model in self.config['quarterly']:
+                tweets_by_model[tw_model] = tweets
+
+        else:
+            raise(BaseException("Invalid mode (choose 'default', 'latest', 'corresponding', 'quarterly', 'YYYY-MM')."))
+    
         return tweets_by_model
 
 
@@ -140,7 +142,7 @@ class TimeLMs(object):
 
     def get_pseudo_ppl(self, tweets, mode='default', verbose=False):
 
-        from pseudo_ppl import score
+        from pseudo_ppl import score  # imported on call to allow TimeLMs running without mxnet
         
         tweets_by_model = self.group_tweets_by_model(tweets, mode)
 
@@ -150,3 +152,20 @@ class TimeLMs(object):
             pppl_by_model[model_name] = {'pppl': pseudo_ppl, 'n_tweets': len(model_tweets)}
 
         return pppl_by_model
+
+
+    def eval_model(self, model_name, tweets_path, verbose=False):
+
+        from pseudo_ppl import score  # imported on call to allow TimeLMs running without mxnet
+        
+        # load tweets from given tweets_path
+        tweets = []
+        with open(tweets_path) as jl_f:
+            for jl_str in jl_f:
+                tweets.append(json.loads(jl_str))
+
+        # model_name can be anything accepted by HF's .from_pretrained()
+        pseudo_ppl = score(model_name, tweets, verbose=verbose)
+
+        return {'pppl': pseudo_ppl, 'n_tweets': len(tweets)}
+
