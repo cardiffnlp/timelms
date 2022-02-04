@@ -2,9 +2,11 @@
 
 TimeLMs allows for easy access to models continuously trained on social media over regular intervals for researching language model degradation, as well as cultural shifts affecting language usage on social media.
 
-To learn more and start using TimeLMs, please refer to our [notebook](demo.ipynb).
-
 Paper: [https://arxiv.org/pdf/TBD.pdf](https://arxiv.org/pdf/TBD.pdf)
+
+Below we provide instructions for getting started with TimeLMs and a few usage examples.
+
+For a more detailed guide, please see our [notebook demo](demo.ipynb).
 
 
 # Getting Started
@@ -20,6 +22,7 @@ $ conda activate timelms
 $ pip install -r requirements.txt
 ```
 
+
 ## Loading TimeLMs
 
 You can load our interface simply with these two lines, importing the TimeLMs class from the [timelms.py](timelms.py) file in this repository.
@@ -29,34 +32,52 @@ from timelms import TimeLMs
 tlms = TimeLMs(device='cuda:0')
 ```
 
+
 ## Operating Modes
 
-Our interface currently supports the following temporal modes for determining which models are employed for different tweets.
+TimeLMs currently supports the following temporal modes for determining which models are employed for different tweets.
 1. 'latest': using our most recently trained Twitter model.
 2. 'YYYY-MM' (custom): using the model closest to a custom date provided by the user (e.g., '2020-11').
-3. 'corresponding': using the model that was trained only until to each tweet's date (i.e., its corresponding quarter).
+3. 'corresponding': using the model that was trained only until to each tweet's date (i.e., its specific quarter).
 4. 'quarterly': using all available models trained over time in quarterly intervals.
 
-WIP
-<!-- 
+The `corresponding` mode requires tweets with a `created_at` field with dates under any format that begins with YYYY-MM.
+
+
 ## Computing Perplexity
 
 ```python
+tweets = [{'text': 'She is pure heart #SanaTheBBWinner', 'created_at': '2020-02-09T05:55:00.000Z'},
+          {'text': 'Looking forward to watching Squid Game tonight !', 'created_at': '2021-10-11T12:34:56.000Z'}]
 
+pseudo_ppls = tlms.get_pseudo_ppl(tweets, mode='corresponding')
 ```
+
+To get pseudo-perplexity (PPPL) scores for a set of tweets, you just need to pass a list of tweets to `tlms.get_pseudo_ppl()`, specifying your desired mode. Depending on the chosen mode, you'll get a score from each applicable model (2 models for this example). Besides PPPL scores by model, this method also returns the input tweets with their specific pseudo-log likelihood (PLL) values.
+
 
 ## Masked Predictions
 
 ```python
+tweets = [{"text": "So glad I'm <mask> vaccinated ."},
+          {"text": "Looking forward to watching <mask> Game tonight !"}]
 
+preds = tlms.get_masked_predictions(tweets, mode='quarterly', top_k=3)
 ```
+
+To get masked predictions using our models, you just need to pass a list of tweets to `tlms.get_masked_predictions()`, specifying your desired mode and number of predictions.
+In the example above, we're choosing the `quarterly` mode, which does not require date fields.
+
 
 ## Evaluating Models
 
 ```python
-
+tlms.eval_model('roberta-base', 'data/tweets/tweets-2020-2021-subset-rnd.jl')
 ```
- -->
+
+We also provide a method for evaluating other models supported by the Transformers package using PPPL.
+For evaluating over the periods of 2020 to 2021, we recommend retrieving the tweets used for our evaluation (we provide tweet ids [here](data/test_ids.csv)), or using the 50K subset provided in this repository as an alternative.
+For the time being, we only support models based on RoBERTa (most Twitter LMs).
 
 # Creating Twitter Corpora
 
