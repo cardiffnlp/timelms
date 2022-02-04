@@ -76,7 +76,7 @@ tlms.eval_model('roberta-base', 'data/tweets/tweets-2020-2021-subset-rnd.jl')
 ```
 
 We also provide a method for evaluating other models supported by the Transformers package using PPPL.
-For evaluating over the periods of 2020 to 2021, we recommend retrieving the tweets used for our evaluation (we provide tweet ids [here](data/test_ids.csv)), or using the 50K subset provided in this repository as an alternative.
+For evaluating over the periods of 2020 to 2021, we recommend retrieving the tweets used for our evaluation (we provide tweet ids [here](data/test_ids.csv.zip)), or using the 50K subset provided in this repository as an alternative.
 For the time being, we only support models based on RoBERTa (most Twitter LMs).
 
 # Creating Twitter Corpora
