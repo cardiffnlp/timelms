@@ -12,10 +12,11 @@ assert transformers.__version__ == '4.9.2'
 class TimeLMs(object):
 
     def __init__(self, device='cpu'):
+        self.version = '0.9.0'
         self.device = device
-        self.config = {}
 
-        self.config['account'] = None
+        self.config = {}
+        self.config['account'] = 'cardiffnlp'
         self.config['slug'] = None
         self.config['default'] = None
         self.config['latest'] = None
@@ -24,7 +25,6 @@ class TimeLMs(object):
 
     def set_config(self):
         # TO-DO: fetch from an endpoint instead of hardcoding
-        self.config['account'] = 'cardiffnlp'
         self.config['slug'] = 'twitter-roberta-base'
         self.config['default'] = 'cardiffnlp/twitter-roberta-base-2021-124m'
         self.config['latest'] = 'cardiffnlp/twitter-roberta-base-dec2021'
