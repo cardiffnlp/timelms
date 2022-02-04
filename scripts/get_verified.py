@@ -1,6 +1,9 @@
 """
+Retrieves list of verified Twitter usernames (for preprocessing).
+
 Based on https://raw.githubusercontent.com/twitterdev/Twitter-API-v2-sample-code/main/Follows-Lookup/followers_lookup.py
 """
+
 import os
 import json
 import time
@@ -22,6 +25,9 @@ def bearer_oauth(r):
 
 if __name__ == "__main__":
 
+    wait_secs = 60
+    wait_secs_on_error = 120
+
     endpoint = "https://api.twitter.com/2/users/63796828/following"  # @verified
 
     params = {"user.fields": "created_at,verified,public_metrics", "max_results": 500}
@@ -34,8 +40,8 @@ if __name__ == "__main__":
 
             if response.status_code != 200:
                 print(datetime.now(), "Request returned an error: {} {}".format(response.status_code, response.text))
-                print(datetime.now(), "Sleeping 120secs ...")
-                time.sleep(120)
+                print(datetime.now(), "Sleeping %d secs ..." % wait_secs_on_error)
+                time.sleep(wait_secs_on_error)
                 continue
 
             json_response = response.json()
@@ -49,5 +55,5 @@ if __name__ == "__main__":
             except KeyError:
                 break  # end of list
 
-            print(datetime.now(), len(users))
-            time.sleep(60)
+            print(datetime.now(), 'Retrieved %d users.' % len(users))
+            time.sleep(wait_secs)

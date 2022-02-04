@@ -1,9 +1,14 @@
 """
-Expects concatenated API responses output by scripts/twitter_collator.py
+Expects concatenated API responses output by scripts/collator.py
 
 Requires:
-pip install datasketch==1.5.3
-pip install xxhash==2.0.2
+- The file data/verified_users.v310821.txt
+$ pip install datasketch==1.5.3
+$ pip install xxhash==2.0.2
+
+Usage:
+$ python scripts/preprocess.py <input .jl> <output .jl>
+$ python scripts/preprocess.py tweets-2020-Q3.jl tweets-2020-Q3.cleaned.jl
 """
 
 import sys
@@ -21,7 +26,7 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%d-%b-%y %H:%M:%S')
 
 
-verified_users = set(open("verified_users.v310821.txt").read().split('\n'))
+verified_users = set(open("data/verified_users.v310821.txt").read().split('\n'))
 
 
 def clean_text(text):
@@ -76,8 +81,8 @@ if __name__ == '__main__':
             user_counter[tweet['username']] += 1
             n_input_tweets += 1
 
-    logging.info('1st pass - Completed, found %d tweets.' % n_input_tweets)
-    logging.info('1st pass - Found %d users.' % len(user_counter.keys()))
+    logging.info('1st pass - Completed, found %d tweets' % n_input_tweets)
+    logging.info('1st pass - Found %d users' % len(user_counter.keys()))
 
     blacklisted_users = set()
     top_users = [user for user, _ in user_counter.most_common()]
@@ -106,7 +111,8 @@ if __name__ == '__main__':
         with open(output_tweets_fn, 'w') as out_tweets_f:
 
             for idx, jl_str in enumerate(in_tweets_f):
-                if idx % 1e6 == 0:
+                # if idx % 1e6 == 0:
+                if idx % 1e5 == 0:
                     logging.info('2nd pass - at idx %d' % idx)
 
                 tweet = json.loads(jl_str)
