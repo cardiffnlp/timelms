@@ -122,7 +122,7 @@ Requires the API BEARER_TOKEN available as an environment variable. You can set 
 $ export 'BEARER_TOKEN'='<your_bearer_token>'
 ```
 
-The script is set up to wait 7 seconds between requests of 500 results. In case of error, the scripts waits another 60 seconds before retrying (and increments time between requests by 0.01 seconds).
+The script is set up to wait 7 seconds between requests of 500 results. In case of error, the script waits another 60 seconds before retrying (and increments time between requests by 0.01 seconds).
 
 ## Compiling Tweets by Date
 
@@ -130,7 +130,7 @@ The script is set up to wait 7 seconds between requests of 500 results. In case 
 $ python scripts/combine.py tweets-2020-Q3.jl 2020-01 2020-02 2020-03  # <output_file> <months:YYYY-MM>
 ```
 
-After populating data/responses with tweets retrieved from the API, you can use the [combine.py](scripts/combine.py) script to combine those responses into a single .jl file restricted to tweets for specified year-months.
+After populating `data/responses` with tweets retrieved from the API, you can use the [combine.py](scripts/combine.py) script to combine those responses into a single .jl file restricted to tweets for specified year-months.
 
 This script also merges metrics and location info so that all data pertaining to a particular tweet is contained in a single-line JSON entry of the output .jl file.
 
