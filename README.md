@@ -9,6 +9,24 @@ Below we provide instructions for getting started with TimeLMs and a few usage e
 For a more detailed guide, please see our [notebook demo](demo.ipynb).
 
 
+# Released Models
+
+List of models released in the scope of TimeLMs:
+
+| Model Name | # Tweets | Last Date | Link |
+| ----------- | ----------- | ----------- | ----------- |
+| twitter-roberta-base-2019-90m | 90.26M | 2019-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2019-90m) |
+| twitter-roberta-base-mar2020 | 94.46M | 2020-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2020) |
+| twitter-roberta-base-jun2020 | 98.66M | 2020-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2020) |
+| twitter-roberta-base-sep2020 | 102.86M | 2020-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2020) |
+| twitter-roberta-base-dec2020 | 107.06M | 2020-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2020) |
+| twitter-roberta-base-mar2021 | 111.26M | 2021-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2021) |
+| twitter-roberta-base-jun2021 | 115.46M | 2021-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2021) |
+| twitter-roberta-base-sep2021 | 119.66M | 2021-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2021) |
+| twitter-roberta-base-dec2021 | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2021) |
+| twitter-roberta-base-2021-124m | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m) |
+
+
 # Getting Started
 
 ## Environment and Dependencies
