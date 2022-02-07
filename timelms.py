@@ -11,8 +11,8 @@ assert transformers.__version__ == '4.9.2'
 
 class TimeLMs(object):
 
-    def __init__(self, device='cpu'):
-        self.version = '0.9.0'
+    def __init__(self, device='cpu', keep_verified_users=True):
+        self.version = '0.9.1'
         self.device = device
 
         self.config = {}
@@ -21,6 +21,10 @@ class TimeLMs(object):
         self.config['default'] = None
         self.config['latest'] = None
         self.set_config()
+
+        self.verified_users = {}
+        if keep_verified_users:
+            self.load_verified_users()
 
 
     def set_config(self):
@@ -33,6 +37,10 @@ class TimeLMs(object):
         for y in ['2020', '2021']:
             for m in ['mar', 'jun', 'sep', 'dec']:
                 self.config['quarterly'].append(f"{self.config['account']}/{self.config['slug']}-{m}{y}")
+
+
+    def load_verified_users(self, verified_fn='data/verified_users.v310821.txt'):
+        self.verified_users = set(open(verified_fn).read().split('\n'))
 
 
     def date2model(self, date_str):
@@ -100,6 +108,18 @@ class TimeLMs(object):
         return tweets_by_model
 
 
+    def preprocess_text(self, text):
+        text = text.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+        
+        text_cleaned = []
+        for t in text.split():
+            t = '@user' if t.startswith('@') and len(t) > 1 and t.replace('@','') not in self.verified_users else t
+            t = 'http' if t.startswith('http') else t
+            text_cleaned.append(t)
+        
+        return ' '.join(text_cleaned)
+
+
     def get_masked_predictions(self, tweets, mode='default', top_k=3, verbose=False):
 
         def make_masked_pipeline(model_name):
@@ -123,7 +143,9 @@ class TimeLMs(object):
         for model_name, model_tweets in tweets_by_model.items():
             
             pipe = make_masked_pipeline(model_name)
-            all_model_preds = pipe([tw['text'] for tw in model_tweets], top_k=top_k)
+            model_texts = [tw['text'] for tw in model_tweets]
+            model_texts = [self.preprocess_text(t) for t in model_texts]
+            all_model_preds = pipe(model_texts, top_k=top_k)
 
             if len(model_tweets) == 1:  # quick-fix: pipe() appears to change output shape if just 1
                 all_model_preds = [all_model_preds]
@@ -162,7 +184,9 @@ class TimeLMs(object):
         tweets = []
         with open(tweets_path) as jl_f:
             for jl_str in jl_f:
-                tweets.append(json.loads(jl_str))
+                tw = json.loads(jl_str)
+                tw['text'] = self.preprocess_text(tw['text'])
+                tweets.append(tw)
 
         # model_name can be anything accepted by HF's .from_pretrained()
         pseudo_ppl = score(model_name, tweets, verbose=verbose)
