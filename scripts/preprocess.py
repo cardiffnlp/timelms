@@ -1,5 +1,5 @@
 """
-Expects concatenated API responses output by scripts/collator.py
+Expects concatenated API responses output by scripts/combine.py
 
 Requires:
 - The file data/verified_users.v310821.txt
