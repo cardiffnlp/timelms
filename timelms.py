@@ -12,7 +12,7 @@ assert transformers.__version__ == '4.9.2'
 class TimeLMs(object):
 
     def __init__(self, device='cpu', keep_verified_users=True):
-        self.version = '0.9.1'
+        self.version = '0.9.2'
         self.device = device
 
         self.config = {}
@@ -120,7 +120,7 @@ class TimeLMs(object):
         return ' '.join(text_cleaned)
 
 
-    def get_masked_predictions(self, tweets, mode='default', top_k=3, verbose=False):
+    def get_masked_predictions(self, tweets, mode='default', top_k=3, targets=None, verbose=False):
 
         def make_masked_pipeline(model_name):
 
@@ -138,6 +138,9 @@ class TimeLMs(object):
             return pipeline('fill-mask', model=model, tokenizer=tokenizer, device=0)
 
 
+        if top_k == -1:
+            top_k = 50265  # vocab_size of our roberta-base models
+
         tweets_by_model = self.group_tweets_by_model(tweets, mode)
 
         for model_name, model_tweets in tweets_by_model.items():
@@ -145,12 +148,16 @@ class TimeLMs(object):
             pipe = make_masked_pipeline(model_name)
             model_texts = [tw['text'] for tw in model_tweets]
             model_texts = [self.preprocess_text(t) for t in model_texts]
-            all_model_preds = pipe(model_texts, top_k=top_k)
+            all_model_preds = pipe(model_texts, top_k=top_k, targets=targets)
 
             if len(model_tweets) == 1:  # quick-fix: pipe() appears to change output shape if just 1
                 all_model_preds = [all_model_preds]
 
             for tw, preds in zip(model_tweets, all_model_preds):
+                
+                for p in preds:  # for lighter output
+                    del p['sequence']
+
                 if mode in ['quarterly']:
                     if 'predictions' not in tw:
                         tw['predictions'] = {model_name: preds}
