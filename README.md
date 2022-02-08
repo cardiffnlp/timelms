@@ -6,7 +6,7 @@ Paper: [https://arxiv.org/pdf/TBD.pdf](https://arxiv.org/pdf/TBD.pdf)
 
 Below we provide instructions for getting started with TimeLMs and a few usage examples.
 
-For a more detailed guide, please see our [notebook demo](demo.ipynb).
+For a more detailed guide, please see our [notebook demo](demo.ipynb). The demo is also available as a [Google Colab notebook](https://colab.research.google.com/drive/1pmHi5GU-5VHtXhbK_QV2A-7mDGwddjp8?usp=sharing).
 
 
 # Released Models
