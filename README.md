@@ -2,7 +2,7 @@
 
 TimeLMs allows for easy access to models continuously trained on social media over regular intervals for researching language model degradation, as well as cultural shifts affecting language usage on social media.
 
-Paper: [https://arxiv.org/pdf/TBD.pdf](https://arxiv.org/pdf/TBD.pdf)
+Paper: [https://arxiv.org/pdf/2202.03829.pdf](https://arxiv.org/pdf/2202.03829.pdf)
 
 Below we provide instructions for getting started with TimeLMs and a few usage examples.
 
@@ -153,6 +153,21 @@ This script removes duplicates, near duplicates and tweets from most frequent us
 
 The set of verified users was determined using the [get_verified.py](scripts/get_verified.py) script, producing the [verified_users.v310821.txt](data/verified_users.v310821.txt) file shared with this repository.
 
+
+# Citing TimeLMs
+
+If you use TimeLMs in your research, please use the following bib entry to cite the reference paper.
+
+```
+@misc{loureiro2022timelms,
+      title={TimeLMs: Diachronic Language Models from Twitter}, 
+      author={Daniel Loureiro and Francesco Barbieri and Leonardo Neves and Luis Espinosa Anke and Jose Camacho-Collados},
+      year={2022},
+      eprint={2202.03829},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
 
 # License
 
