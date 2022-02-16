@@ -28,7 +28,6 @@ if __name__ == '__main__':
     # collect all response paths
     directories = []
     directories.append('data/responses/')
-    directories.append('/media/dan/M2/meaning-shift-data/twitter/00m/')
 
     all_response_fns = []
     for dir in directories:
