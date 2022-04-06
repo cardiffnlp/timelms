@@ -36,11 +36,16 @@ if __name__ == "__main__":
     with open('data/verified_users.jl', 'w') as out_f:
         while True:
 
-            response = requests.request("GET", endpoint, auth=bearer_oauth, params=params)
+            try:
+                response = requests.request("GET", endpoint, auth=bearer_oauth, params=params)
+            except:
+                print(datetime.now(), "[Request Error] Sleeping  %d secs ..." % wait_secs_on_error)
+                time.sleep(wait_secs_on_error)
+                continue
 
             if response.status_code != 200:
                 print(datetime.now(), "Request returned an error: {} {}".format(response.status_code, response.text))
-                print(datetime.now(), "Sleeping %d secs ..." % wait_secs_on_error)
+                print(datetime.now(), "[Bad Code] Sleeping %d secs ..." % wait_secs_on_error)
                 time.sleep(wait_secs_on_error)
                 continue
 
@@ -50,10 +55,11 @@ if __name__ == "__main__":
                 out_f.write(json.dumps(user_info)+'\n')
                 users.add(user_info['username'])
 
+            print(datetime.now(), 'Retrieved %d users.' % len(users))
+
             try:
                 params['pagination_token'] = json_response['meta']['next_token']
             except KeyError:
                 break  # end of list
 
-            print(datetime.now(), 'Retrieved %d users.' % len(users))
             time.sleep(wait_secs)
