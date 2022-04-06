@@ -62,11 +62,18 @@ def query_twitter(search_url, headers, params):
 
 
 def check_invalid_date(year, month, day, hour):
+
     try:
-        datetime(year, month, day, hour)
-        return False
+        dt = datetime(year, month, day, hour)
     except ValueError:
         return True
+
+    dt_now = datetime.now()
+    dt_diff = dt_now.timestamp() - dt.timestamp()
+    if dt_diff < (90 * 60):  # min 1h30m diff
+        return True
+    
+    return False
 
 
 if __name__ == "__main__":
@@ -77,7 +84,7 @@ if __name__ == "__main__":
     target_min = int(target_min)
     assert target_year > 2008
     assert target_month >= 1 and target_month < 13
-    assert target_min > 0 and target_min < 60
+    assert target_min >= 0 and target_min < 60
 
     all_periods = []
     for day in range(1, 31+1):

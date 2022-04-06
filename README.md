@@ -11,7 +11,7 @@ For a more detailed guide, please see our [notebook demo](demo.ipynb). The demo 
 
 # Released Models
 
-List of models released in the scope of TimeLMs:
+List of models released in the scope of TimeLMs (available through the Hugging Face hub):
 
 | Model Name | # Tweets | Last Date | Link |
 | ----------- | ----------- | ----------- | ----------- |
