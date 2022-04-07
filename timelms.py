@@ -39,7 +39,7 @@ class TimeLMs(object):
                 self.config['quarterly'].append(f"{self.config['account']}/{self.config['slug']}-{m}{y}")
 
 
-    def load_verified_users(self, verified_fn='data/verified_users.v310821.txt'):
+    def load_verified_users(self, verified_fn='data/verified_users.v050422.txt'):
         self.verified_users = set(open(verified_fn).read().split('\n'))
 
 
