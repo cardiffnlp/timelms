@@ -1,4 +1,6 @@
 import json
+import warnings
+import requests
 from collections import defaultdict
 from typing import OrderedDict
 
@@ -12,7 +14,7 @@ assert transformers.__version__ == '4.9.2'
 class TimeLMs(object):
 
     def __init__(self, device='cpu', keep_verified_users=True):
-        self.version = '0.9.2'
+        self.version = '0.9.3'
         self.device = device
 
         self.config = {}
@@ -28,15 +30,22 @@ class TimeLMs(object):
 
 
     def set_config(self):
-        # TO-DO: fetch from an endpoint instead of hardcoding
         self.config['slug'] = 'twitter-roberta-base'
-        self.config['default'] = 'cardiffnlp/twitter-roberta-base-2021-124m'
-        self.config['latest'] = 'cardiffnlp/twitter-roberta-base-dec2021'
+        
+        try:
+            models_config = requests.get('https://raw.githubusercontent.com/cardiffnlp/timelms/main/models.json').json()
+            self.config['source'] = 'remote'
 
-        self.config['quarterly'] = []
-        for y in ['2020', '2021']:
-            for m in ['mar', 'jun', 'sep', 'dec']:
-                self.config['quarterly'].append(f"{self.config['account']}/{self.config['slug']}-{m}{y}")
+        except Exception as e:  # fallback to local models.json (possibly outdated)
+            warnings.warn(f"Failed to retrieve updated models info - {e}")
+
+            with open('models.json') as f:
+                models_config = json.load(f)
+            self.config['source'] = 'local'
+
+        self.config['default'] = models_config['roberta-base']['default']
+        self.config['latest'] = models_config['roberta-base']['latest']
+        self.config['quarterly'] = models_config['roberta-base']['quarterly']
 
 
     def load_verified_users(self, verified_fn='data/verified_users.v050422.txt'):
