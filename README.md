@@ -13,19 +13,19 @@ For a more detailed guide, please see our [notebook demo](demo.ipynb). The demo 
 
 List of models released in the scope of TimeLMs (available through the Hugging Face hub):
 
-| Model Name | # Tweets | Last Date | Link |
-| ----------- | ----------- | ----------- | ----------- |
-| twitter-roberta-base-2019-90m | 90.26M | 2019-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2019-90m) |
-| twitter-roberta-base-mar2020 | 94.46M | 2020-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2020) |
-| twitter-roberta-base-jun2020 | 98.66M | 2020-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2020) |
-| twitter-roberta-base-sep2020 | 102.86M | 2020-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2020) |
-| twitter-roberta-base-dec2020 | 107.06M | 2020-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2020) |
-| twitter-roberta-base-mar2021 | 111.26M | 2021-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2021) |
-| twitter-roberta-base-jun2021 | 115.46M | 2021-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2021) |
-| twitter-roberta-base-sep2021 | 119.66M | 2021-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2021) |
-| twitter-roberta-base-dec2021 | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2021) |
-| twitter-roberta-base-2021-124m | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m) |
-| twitter-roberta-base-mar2022 | 128.06M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022) |
+| Model Name | # Tweets | Last Date | Link | Verified Users Set |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
+| twitter-roberta-base-2019-90m | 90.26M | 2019-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2019-90m) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-mar2020 | 94.46M | 2020-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2020) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-jun2020 | 98.66M | 2020-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2020) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-sep2020 | 102.86M | 2020-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2020) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-dec2020 | 107.06M | 2020-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2020) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-mar2021 | 111.26M | 2021-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2021) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-jun2021 | 115.46M | 2021-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2021) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-sep2021 | 119.66M | 2021-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2021) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-dec2021 | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2021) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-2021-124m | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
+| twitter-roberta-base-mar2022 | 128.06M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 
 
 We also provide updated Pseudo-PPL scores for released models on this [Google Sheet](https://docs.google.com/spreadsheets/d/1LSWgWh1ti867bLllb-5xVco2yQ5-M50nplqBMuOdDDk/edit?usp=sharing).
