@@ -25,6 +25,11 @@ List of models released in the scope of TimeLMs (available through the Hugging F
 | twitter-roberta-base-sep2021 | 119.66M | 2021-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2021) |
 | twitter-roberta-base-dec2021 | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-dec2021) |
 | twitter-roberta-base-2021-124m | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m) |
+| twitter-roberta-base-mar2022 | 128.06M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022) |
+
+
+We also provide updated Pseudo-PPL scores for released models on this [Google Sheet](https://docs.google.com/spreadsheets/d/1LSWgWh1ti867bLllb-5xVco2yQ5-M50nplqBMuOdDDk/edit?usp=sharing).
+
 
 
 # Getting Started
