@@ -1,0 +1,17 @@
+{
+    "roberta-base": {
+        "default": "cardiffnlp/twitter-roberta-base-2021-124m",
+        "latest": "cardiffnlp/twitter-roberta-base-mar2022",
+        "quarterly": [
+            "cardiffnlp/twitter-roberta-base-mar2020",
+            "cardiffnlp/twitter-roberta-base-jun2020",
+            "cardiffnlp/twitter-roberta-base-sep2020",
+            "cardiffnlp/twitter-roberta-base-dec2020",
+            "cardiffnlp/twitter-roberta-base-mar2021",
+            "cardiffnlp/twitter-roberta-base-jun2021",
+            "cardiffnlp/twitter-roberta-base-sep2021",
+            "cardiffnlp/twitter-roberta-base-dec2021",
+            "cardiffnlp/twitter-roberta-base-mar2022"
+        ]
+    }
+}
