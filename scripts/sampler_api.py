@@ -1,5 +1,5 @@
 """
-Retrieves tweets for every hour of every day of the given YYYY-MM at the specified MIN_MARK.
+Retrieves generic tweets for every hour of every day of the given YYYY-MM at the specified MIN_MARK.
 For use with Twitter Academic API.
 
 Requires:
@@ -8,14 +8,27 @@ To set your environment variables in your terminal run the following line:
 $ export 'BEARER_TOKEN'='<your_bearer_token>'
 
 Usage:
-$ python scripts/sampler_api.py <YYYY> <MM> <MIN_MARK>
-$ python scripts/sampler_api.py 2020 01 35
+sampler_api.py [-h] -year YEAR -month MONTH -min_mark MIN_MARK [-dir DIR] [-sleep_duration SLEEP_DURATION]
+                    [-retry_duration RETRY_DURATION]
 
-Notes:
-MIN_MARK - Specific minute for requests. To allow for multiple requests distanced by user-defined minutes (e.g. every 5 minutes).
+Retrieves generic tweets for every hour of every day of the given YYYY-MM at the specified MIN_MARK.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -year YEAR            Target year.
+  -month MONTH          Target month.
+  -min_mark MIN_MARK    Target minute. To allow for multiple requests distanced by user-defined minutes (e.g., every 5 minutes).
+  -dir DIR              Directory for storing responses.
+  -sleep_duration SLEEP_DURATION
+                        How many seconds to wait between requests.
+  -retry_duration RETRY_DURATION
+                        How many seconds to wait after failed request.
+
+Example:
+$ python scripts/sampler_api.py -year 2020 -month 1 -min_mark 35
 """
 
-import sys
+import argparse
 import os
 import json
 import time
@@ -34,14 +47,10 @@ logging.basicConfig(level=logging.DEBUG,
 
 bearer_token = os.environ.get("BEARER_TOKEN")
 
-search_url = "https://api.twitter.com/2/tweets/search/all"
-
-sleep_duration = 7
-retry_duration = 60 * 1 + 1
-responses_folder = 'data/responses/'
 
 # stopwords in query selected as top 10 from:
 # https://github.com/first20hours/google-10000-english/raw/master/google-10000-english.txt
+search_url = "https://api.twitter.com/2/tweets/search/all"
 query_params = {}
 query_params['query'] = '("the" OR "of" OR "and" OR "to" OR "a" OR "in" OR "for" OR "is" OR "on" OR "that") lang:en -is:retweet -is:quote -has:media -has:links -is:nullcast'
 query_params['expansions'] = 'author_id,geo.place_id'
@@ -78,13 +87,22 @@ def check_invalid_date(year, month, day, hour):
 
 if __name__ == "__main__":
 
-    target_year = int(sys.argv[1])
-    target_month = int(sys.argv[2])
-    target_min = sys.argv[3]
-    target_min = int(target_min)
-    assert target_year > 2008
-    assert target_month >= 1 and target_month < 13
-    assert target_min >= 0 and target_min < 60
+    parser = argparse.ArgumentParser(description='Retrieves generic tweets for every hour of every day of the given YYYY-MM at the specified MIN_MARK.')
+    parser.add_argument('-year', help='Target year.', required=True, type=int)
+    parser.add_argument('-month', help='Target month.', required=True, type=int)
+    parser.add_argument('-min_mark', help='Target minute. To allow for multiple requests distanced by user-defined minutes (e.g., every 5 minutes).', required=True, type=int)
+    parser.add_argument('-dir', help='Directory for storing responses.', default='data/responses/', required=False, type=str)
+    parser.add_argument('-sleep_duration', help='How many seconds to wait between requests.', default=10, required=False, type=int)
+    parser.add_argument('-retry_duration', help='How many seconds to wait after failed request.', default=61, required=False, type=int)
+    args = parser.parse_args()
+
+    assert args.year >= 2006
+    assert args.month >= 1 and args.month < 13
+    assert args.min_mark >= 0 and args.min_mark < 60
+
+    if not os.path.exists(args.dir):
+        os.makedirs(args.dir)
+
 
     all_periods = []
     for day in range(1, 31+1):
@@ -92,10 +110,10 @@ if __name__ == "__main__":
         day_periods = []
         for hour in range(0, 23+1):
 
-            if check_invalid_date(target_year, target_month, day, hour):
+            if check_invalid_date(args.year, args.month, day, hour):
                 continue
 
-            end_time = datetime(target_year, target_month, day, hour, target_min, 1)
+            end_time = datetime(args.year, args.month, day, hour, args.min_mark, 1)
             start_time = end_time - timedelta(hours=1)
 
             start_time = start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -109,7 +127,7 @@ if __name__ == "__main__":
 
     # check responses already collected
     responses_collected = set()
-    for fn in listdir(responses_folder):
+    for fn in listdir(args.dir):
         if fn.endswith('.response.json'):
             responses_collected.add(fn)
 
@@ -136,18 +154,18 @@ if __name__ == "__main__":
                     logging.info('\tResults Count: %d' % twitter_response['meta']['result_count'])
 
                     logging.info('\tWriting %s ...' % response_fn)
-                    with open(responses_folder + response_fn, 'w') as jl_f:
+                    with open(args.dir + response_fn, 'w') as jl_f:
                         json.dump(wrapped_response, jl_f, indent=4)
 
-                    logging.info('\tSleeping %f secs ...' % sleep_duration)
-                    time.sleep(sleep_duration)
+                    logging.info('\tSleeping %f secs ...' % args.sleep_duration)
+                    time.sleep(args.sleep_duration)
                     n_requests_until_fail += 1
                     break
 
                 except Exception as e:
                     logging.info('\tRequest Failed - ', e)
                     logging.info('\t# requests until fail:', n_requests_until_fail)
-                    logging.info('\tSleeping %d secs ...' % retry_duration)
-                    time.sleep(retry_duration)
+                    logging.info('\tSleeping %d secs ...' % args.retry_duration)
+                    time.sleep(args.retry_duration)
                     n_requests_until_fail = 0
-                    sleep_duration += 0.01
+                    args.sleep_duration += 0.01
