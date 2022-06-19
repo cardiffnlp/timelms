@@ -2,7 +2,7 @@
 
 TimeLMs allows for easy access to models continuously trained on social media over regular intervals for researching language model degradation, as well as cultural shifts affecting language usage on social media.
 
-Paper: [https://arxiv.org/pdf/2202.03829.pdf](https://arxiv.org/pdf/2202.03829.pdf)
+Paper (ACL-2022 Demo): [https://arxiv.org/pdf/2202.03829.pdf](https://arxiv.org/pdf/2202.03829.pdf)
 
 Below we provide instructions for getting started with TimeLMs and a few usage examples.
 
@@ -161,16 +161,24 @@ The set of verified users was determined using the [get_verified.py](scripts/get
 
 # Citing TimeLMs
 
-If you use TimeLMs in your research, please use the following bib entry to cite the reference paper.
+If you use TimeLMs in your research, please use the following bib entry to cite the [reference paper](https://arxiv.org/pdf/2202.03829.pdf).
 
 ```
-@misc{loureiro2022timelms,
-      title={TimeLMs: Diachronic Language Models from Twitter}, 
-      author={Daniel Loureiro and Francesco Barbieri and Leonardo Neves and Luis Espinosa Anke and Jose Camacho-Collados},
-      year={2022},
-      eprint={2202.03829},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{loureiro-etal-2022-timelms,
+    title = "{T}ime{LM}s: Diachronic Language Models from {T}witter",
+    author = "Loureiro, Daniel  and
+      Barbieri, Francesco  and
+      Neves, Leonardo  and
+      Espinosa Anke, Luis  and
+      Camacho-collados, Jose",
+    booktitle = "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics: System Demonstrations",
+    month = may,
+    year = "2022",
+    address = "Dublin, Ireland",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.acl-demo.25",
+    doi = "10.18653/v1/2022.acl-demo.25",
+    pages = "251--260"
 }
 ```
 
