@@ -1,5 +1,7 @@
 # TimeLMs: Diachronic Language Models from Twitter
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pmHi5GU-5VHtXhbK_QV2A-7mDGwddjp8?usp=sharing)
+
 TimeLMs allows for easy access to models continuously trained on social media over regular intervals for researching language model degradation, as well as cultural shifts affecting language usage on social media.
 
 Paper (ACL-2022 Demo): [https://arxiv.org/pdf/2202.03829.pdf](https://arxiv.org/pdf/2202.03829.pdf)
