@@ -4,9 +4,9 @@ TimeLMs allows for easy access to models continuously trained on social media ov
 
 Paper (ACL-2022 Demo): [https://arxiv.org/pdf/2202.03829.pdf](https://arxiv.org/pdf/2202.03829.pdf)
 
-Below we provide instructions for getting started with TimeLMs and a few usage examples.
+Below we provide instructions for getting started with TimeLMs and a few usage examples. For a more detailed guide, please see our [notebook demo](demo.ipynb). The demo is also available as a [Google Colab notebook](https://colab.research.google.com/drive/1pmHi5GU-5VHtXhbK_QV2A-7mDGwddjp8?usp=sharing).
 
-For a more detailed guide, please see our [notebook demo](demo.ipynb). The demo is also available as a [Google Colab notebook](https://colab.research.google.com/drive/1pmHi5GU-5VHtXhbK_QV2A-7mDGwddjp8?usp=sharing).
+TimeLMs has also been integrated into the [TweetNLP library](https://github.com/cardiffnlp/tweetnlp).
 
 
 # Released Models
@@ -99,7 +99,7 @@ In the example above, we're choosing the `quarterly` mode, which does not requir
 tlms.eval_model('roberta-base', 'data/tweets/tweets-2020-2021-subset-rnd.jl')
 ```
 
-We also provide a method for evaluating other models supported by the Transformers package using PPPL.
+We provide a method for evaluating other models supported by the Transformers package using PPPL.
 For evaluating over the periods of 2020 to 2021, we recommend retrieving the tweets used for our evaluation (we provide tweet ids [here](data/test_ids.csv.zip)), or using the 50K subset provided in this repository as an alternative.
 For the time being, we only support models based on RoBERTa (most Twitter LMs).
 
