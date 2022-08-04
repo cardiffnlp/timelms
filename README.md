@@ -145,7 +145,7 @@ You may specify any number of YYYY-MMs. If none are provided, the script will us
 ## Cleaning, Filtering and Anonymizing
 
 ```bash
-$ python scripts/preprocess.py tweets-2020-Q3.jl tweets-2020-Q3.cleaned.jl  # <input .jl> <output .jl>
+$ python scripts/preprocess.py --src tweets-2020-Q3.jl --out tweets-2020-Q3.cleaned.jl
 ```
 
 Finally, the merged .jl file can be preprocessed using the [preprocess.py](scripts/preprocess.py) script. This step requires the following additional packages:
@@ -157,7 +157,7 @@ $ pip install xxhash==2.0.2
 
 This script removes duplicates, near duplicates and tweets from most frequent users (likely bots, details in the paper) besides replacing user mentions with '@user' for anonymization, except for popular users (i.e., verified users).
 
-The set of verified users was determined using the [get_verified.py](scripts/get_verified.py) script, producing the [verified_users.v310821.txt](data/verified_users.v310821.txt) file shared with this repository.
+The set of verified users was determined using the [get_verified.py](scripts/get_verified.py) script, producing the [verified_users.v310821.txt](data/verified_users.v310821.txt) file shared with this repository (and more recent versions).
 
 
 # Citing TimeLMs

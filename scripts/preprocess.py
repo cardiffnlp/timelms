@@ -2,16 +2,30 @@
 Expects concatenated API responses output by scripts/combine.py
 
 Requires:
-- The file data/verified_users.v310821.txt
+- The file data/verified_users.v050422.txt (or more recent version)
 $ pip install datasketch==1.5.3
 $ pip install xxhash==2.0.2
 
-Usage:
-$ python scripts/preprocess.py <input .jl> <output .jl>
-$ python scripts/preprocess.py tweets-2020-Q3.jl tweets-2020-Q3.cleaned.jl
+
+$ python scripts/preprocess.py -h
+usage: preprocess.py [-h] --src SRC --out OUT [--blacklist_pct BLACKLIST_PCT] [--keep_ids KEEP_IDS]
+
+Removes near-duplicates and tweets from top pct. of users.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --src SRC             Path to set of input tweets (.jl).
+  --out OUT             Path to output from preprocessing (.jl).
+  --blacklist_pct BLACKLIST_PCT
+                        Percent of most frequent users to ignore.
+  --keep_ids KEEP_IDS   Path to .jl with tweet ids to keep in preprocessed version.
+
+Example:
+$ python scripts/preprocess.py --src tweets-2020-Q3.jl --out tweets-2020-Q3.cleaned.jl
 """
 
-import sys
+# import sys
+import argparse
 import json
 import logging
 import string
@@ -26,7 +40,8 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%d-%b-%y %H:%M:%S')
 
 
-verified_users = set(open("data/verified_users.v310821.txt").read().split('\n'))
+# verified_users = set(open("data/verified_users.v310821.txt").read().split('\n'))
+verified_users = set(open("data/verified_users.v050422.txt").read().split('\n'))
 
 
 def clean_text(text):
@@ -62,15 +77,37 @@ def hash_tweet(tweet, num_perm=16):
 
 if __name__ == '__main__':
 
-    input_tweets_fn = sys.argv[1]
-    output_tweets_fn = sys.argv[2]
+    parser = argparse.ArgumentParser(description='Removes near-duplicates and tweets from top pct. of users.')
+    parser.add_argument('--src', type=str, required=True, help='Path to set of input tweets (.jl).')
+    parser.add_argument('--out', type=str, required=True, help='Path to output from preprocessing (.jl).')
+    parser.add_argument('--blacklist_pct', type=float, required=False, default=0.01, help='Percent of most frequent users to ignore.')
+    parser.add_argument('--keep_ids', type=str, required=False, help='Path to .jl with tweet ids to keep in preprocessed version.')
+    args = parser.parse_args()
 
-    blacklist_pct = 0.01
+    keep_ids = set()
+    if args.keep_ids is not None:
+        with open(args.keep_ids) as f:
+
+            if args.keep_ids.endswith('.jl'):
+                for jl_str in f:
+                    jl = json.loads(jl_str)
+                    keep_ids.add(jl['id'])
+
+            elif args.keep_ids.endswith('.txt'):
+                for line in f:
+                    keep_ids.add(line.strip())
+
+        logging.info('Keeping %d tweets ...' % len(keep_ids))
+
+    # input_tweets_fn = sys.argv[1]
+    # output_tweets_fn = sys.argv[2]
+    # blacklist_pct = 0.01
 
     logging.info('1st pass - Collecting username counts ...')
     n_input_tweets = 0
     user_counter = Counter()
-    with open(input_tweets_fn) as in_tweets_f:
+    # with open(input_tweets_fn) as in_tweets_f:
+    with open(args.src) as in_tweets_f:
 
         for idx, jl_str in enumerate(in_tweets_f):
             if idx % 1e6 == 0:
@@ -87,7 +124,7 @@ if __name__ == '__main__':
     blacklisted_users = set()
     top_users = [user for user, _ in user_counter.most_common()]
 
-    n_blacklisted_users = int(len(top_users)*blacklist_pct)
+    n_blacklisted_users = int(len(top_users)*args.blacklist_pct)
     blacklisted_users = set(top_users[:n_blacklisted_users])
     
     # additional stats
@@ -106,9 +143,10 @@ if __name__ == '__main__':
     n_written = 0
     n_ignored_by_user = 0
     n_ignored_by_hash = 0
-    with open(input_tweets_fn) as in_tweets_f:
+    n_kept_by_id = 0
+    with open(args.src) as in_tweets_f:
 
-        with open(output_tweets_fn, 'w') as out_tweets_f:
+        with open(args.out, 'w') as out_tweets_f:
 
             for idx, jl_str in enumerate(in_tweets_f):
                 # if idx % 1e6 == 0:
@@ -118,21 +156,34 @@ if __name__ == '__main__':
                 tweet = json.loads(jl_str)
                 tweet['text'] = clean_text(tweet['text'])
 
+                discard = False
+
                 if tweet['username'] in blacklisted_users:
                     n_ignored_by_user += 1
-                    continue
+                    discard = True
 
                 tweet_hash = hash_tweet(tweet)
 
-                if tweet_hash not in written_hashes:
+                if tweet_hash in written_hashes:
+                    n_ignored_by_hash += 1
+                    discard = True
+
+                if discard and (tweet['id'] in keep_ids):
+                    discard = False
+                    n_kept_by_id += 1
+
+                if not discard:
                     out_tweets_f.write(json.dumps(tweet)+'\n')
                     n_written += 1
 
                     written_hashes.add(tweet_hash)
 
-                else:
-                    n_ignored_by_hash += 1
-
-    logging.info(f"2nd pass - Completed, wrote {n_written} tweets, ignored {n_ignored_by_user} by user blacklist, {n_ignored_by_hash} by hash collision")
+    logging.info(f"2nd pass - Completed, wrote {n_written} tweets.")
+    if n_ignored_by_user > 0:
+        logging.info(f"\tignored {n_ignored_by_user} by user blacklist")
+    if n_ignored_by_hash > 0:
+        logging.info(f"\tignored {n_ignored_by_hash} by hash collision")
+    if n_kept_by_id > 0:
+        logging.info(f"\tkept {n_kept_by_id} using provided ids")
 
     logging.info("Done")
