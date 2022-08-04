@@ -24,7 +24,6 @@ Example:
 $ python scripts/preprocess.py --src tweets-2020-Q3.jl --out tweets-2020-Q3.cleaned.jl
 """
 
-# import sys
 import argparse
 import json
 import logging
@@ -40,7 +39,6 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%d-%b-%y %H:%M:%S')
 
 
-# verified_users = set(open("data/verified_users.v310821.txt").read().split('\n'))
 verified_users = set(open("data/verified_users.v050422.txt").read().split('\n'))
 
 
@@ -99,14 +97,9 @@ if __name__ == '__main__':
 
         logging.info('Keeping %d tweets ...' % len(keep_ids))
 
-    # input_tweets_fn = sys.argv[1]
-    # output_tweets_fn = sys.argv[2]
-    # blacklist_pct = 0.01
-
     logging.info('1st pass - Collecting username counts ...')
     n_input_tweets = 0
     user_counter = Counter()
-    # with open(input_tweets_fn) as in_tweets_f:
     with open(args.src) as in_tweets_f:
 
         for idx, jl_str in enumerate(in_tweets_f):
