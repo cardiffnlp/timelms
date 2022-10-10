@@ -29,9 +29,8 @@ List of models released in the scope of TimeLMs (available through the Hugging F
 | twitter-roberta-base-2021-124m | 123.86M | 2021-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m) | [v310821](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v310821.txt) |
 | twitter-roberta-base-mar2022 | 128.06M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 | twitter-roberta-base-jun2022 | 132.26M | 2022-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2022) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
-
-
-We also provide updated Pseudo-PPL scores for released models on this [Google Sheet](https://docs.google.com/spreadsheets/d/1LSWgWh1ti867bLllb-5xVco2yQ5-M50nplqBMuOdDDk/edit?usp=sharing).
+| twitter-roberta-base-mar2022-15M-incr | 138.86M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022-15M-incr) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
+| twitter-roberta-base-jun2022-15M-incr | 153.86M | 2022-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2022-15M-incr) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 
 
 
