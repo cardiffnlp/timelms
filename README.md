@@ -32,7 +32,6 @@ List of models released in the scope of TimeLMs (available through the Hugging F
 | twitter-roberta-base-mar2022-15M-incr | 138.86M | 2022-03-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-mar2022-15M-incr) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 | twitter-roberta-base-jun2022-15M-incr | 153.86M | 2022-06-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-jun2022-15M-incr) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 | twitter-roberta-base-sep2022 | 168.86M | 2022-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2022) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
-| twitter-roberta-base-sep2022 | 168.86M | 2022-09-30 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-sep2022) | [v050422](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v050422.txt) |
 | twitter-roberta-base-2022-154m | 154M | 2022-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-base-2022-154m) | [v091122](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v091122.txt) |
 | twitter-roberta-large-2022-154m | 154M | 2022-12-31 | [Hub Link](https://huggingface.co/cardiffnlp/twitter-roberta-large-2022-154m) | [v091122](https://github.com/cardiffnlp/timelms/raw/main/data/verified_users.v091122.txt) |
 
